@@ -4,6 +4,7 @@ import strings from '../strings/strings';
 import { Typography, Button, DatePicker } from 'antd';
 import faker from 'faker';
 import moment from 'moment';
+import usePoll from '../hooks/usePoll';
 
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
@@ -23,6 +24,7 @@ const CreatePoll: React.FC = () => {
   const [startDate, setStartDate] = useState<moment.Moment>(moment());
   const [endDate, setEndDate] = useState<moment.Moment>(moment().add(7, 'd'));
 
+  const { polls, createPoll } = usePoll();
 
   const disabledDate = (current: moment.Moment) => {
     return startDate > current;
@@ -43,7 +45,7 @@ const CreatePoll: React.FC = () => {
   }
 
   const onClickCreate = () => {
-    // TODO: create poll
+    createPoll(title, options, startDate, endDate)
   }
 
   return (
