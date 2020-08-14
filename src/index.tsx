@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from 'recoil';
+import 'antd/dist/antd.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </RecoilRoot>
-  </React.StrictMode>,
+  <RecoilRoot>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </RecoilRoot>,
   document.getElementById('root')
 );
