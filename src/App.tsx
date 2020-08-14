@@ -16,10 +16,10 @@ const App: React.FC = () => {
     <AppContainer>
       <GlobalStyle />
       <Switch>
-        {routes.map(route => <Route exact {...route} />)}
+        {routes.map(route => <Route exact key={route.path} {...route} />)}
         <Route
           path="/"
-          render={() => <Redirect to="/"/>}
+          render={() => <Redirect to="/" />}
         />
       </Switch>
     </AppContainer>
