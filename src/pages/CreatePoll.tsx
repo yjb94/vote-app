@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import strings from '../strings/strings';
-import { Typography, Button } from 'antd';
+import { Typography, Button, DatePicker } from 'antd';
 import faker from 'faker';
+import moment from 'moment';
 
 const { Text } = Typography;
+const { RangePicker } = DatePicker;
 
 const createOptions = (length: number): OptionType[] => {
   return [...Array(length)].map((_, idx) => {
@@ -16,9 +18,15 @@ const createOptions = (length: number): OptionType[] => {
 }
 
 const CreatePoll: React.FC = () => {
-  const [title, setTitle] = useState<string>(strings['create.title'])
-  const [options, setOptions] = useState<OptionType[]>(createOptions(3))
+  const [title, setTitle] = useState<string>(strings['create.title']);
+  const [options, setOptions] = useState<OptionType[]>(createOptions(3));
+  const [startDate, setStartDate] = useState<moment.Moment>(moment());
+  const [endDate, setEndDate] = useState<moment.Moment>(moment().add(7, 'd'));
 
+
+  const disabledDate = (current: moment.Moment) => {
+    return startDate > current;
+  };
 
   const onTitleChange = (str: string) => {
     setTitle(str);
@@ -27,6 +35,13 @@ const CreatePoll: React.FC = () => {
     const newOptions = options.map(each => each === option ? { ...each, title: str } : each);
     setOptions(newOptions);
   }
+  const onChangeCalendar = (ranges: RangeValue<moment.Moment>) => {
+    if(ranges) {
+      ranges[0] && setStartDate(ranges[0]);
+      ranges[1] && setEndDate(ranges[1]);
+    }
+  }
+
   const onClickCreate = () => {
     // TODO: create poll
   }
@@ -54,6 +69,11 @@ const CreatePoll: React.FC = () => {
           )
         })}
       </OptionsContainer>
+      <RangePicker
+        defaultValue={[startDate, endDate]}
+        disabledDate={disabledDate}
+        onCalendarChange={onChangeCalendar}
+      />
       <CreateButton
         onClick={onClickCreate}
       >
