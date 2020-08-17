@@ -3,6 +3,7 @@ import styled from "styled-components";
 import moment from "moment";
 import OptionItem from './OptionItem';
 import { Badge } from 'antd';
+import strings from '../../strings/strings';
 
 const PollItem: React.FC<{ poll: PollType }> = ({
   poll
@@ -11,16 +12,14 @@ const PollItem: React.FC<{ poll: PollType }> = ({
   const [startDate] = useState<moment.Moment>(moment(poll.startDate));
   const [endDate] = useState<moment.Moment>(moment(poll.endDate));
 
-  const periodText = `${startDate.format('YYYY/MM/DD')} ~ ${endDate.format('YYYY/MM/DD')}`;
-
-  let status: 'default' | 'warning' | "processing" | 'error' = 'default';
+  let status: 'warning' | "processing" | 'error' = 'error';
   if(today.isBefore(startDate)) {
     status = 'warning';
   } else if(today.isBetween(startDate, endDate)) {
     status = 'processing';
-  } else {
-    status = 'error'
   }
+  
+  const periodText = `${strings[status]} - ${startDate.format('YYYY/MM/DD')} ~ ${endDate.format('YYYY/MM/DD')}`;
 
   return (
     <Container>
