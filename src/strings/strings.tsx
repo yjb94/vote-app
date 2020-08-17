@@ -2,6 +2,14 @@ const strings = {
   "route.create": "투표 생성",
   "route.listPoll": "투표 목록",
 
+  "login.email.label": "이메일",
+  "login.email.required": "이메일을 입력해주세요",
+  "login.email.invalid": "올바른 이메일이 아닙니다",
+  "login.password.label": "비밀번호",
+  "login.password.required": "비밀번호를 입력해주세요",
+  
+  "login.loginButton": "로그인",
+
   "create.title": "투표 제목",
   "create.createButton": "투표 생성",
 

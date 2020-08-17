@@ -1,8 +1,19 @@
 import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+import * as utils from './utils';
+
+const db = admin.database();
+
+// creates default element for initial user
+exports.onCreateUser = functions.auth.user().onCreate((user) => {
+  const { uid, email } = user;
+  const dbRef = db.ref(`/users/${uid}`);
+  const updates = {
+      email:email,
+      createdAt: utils.getTime()
+  }
+  dbRef.update(updates)
+      .then()
+      .catch(error => console.error(error));
+});

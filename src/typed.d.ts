@@ -15,7 +15,13 @@ interface OptionType {
 interface RouteType {
   path: string;
   component: React.FC;
-  name: string;
+  name?: string;
+}
+
+interface UserType {
+  id: string;
+  token: string;
+  email: string;
 }
 
 type RangeValue<DateType> = [DateType | null, DateType | null] | null;
