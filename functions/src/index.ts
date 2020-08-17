@@ -3,6 +3,8 @@ import * as admin from 'firebase-admin';
 
 import * as utils from './utils';
 
+admin.initializeApp(functions.config().firebase);
+
 const db = admin.database();
 
 // creates default element for initial user
