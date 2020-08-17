@@ -5,8 +5,15 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import CreatePoll from './pages/CreatePoll';
 import strings from './strings/strings';
 import ListPoll from './pages/ListPoll';
+import { pollsState } from './stores/poll';
+import { useRecoilTransactionObserver_UNSTABLE } from 'recoil';
 
 const App: React.FC = () => {
+  useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
+    const polls = snapshot.getLoadable(pollsState).contents;
+    localStorage.setItem('polls', JSON.stringify(polls));
+  });
+
   const routes: RouteType[] = [
     { path: '/create', component: CreatePoll, name: strings["route.create"] },
     { path: '/', component: ListPoll, name: strings["route.listPoll"] },

@@ -24,7 +24,7 @@ const CreatePoll: React.FC = () => {
   const [startDate, setStartDate] = useState<moment.Moment>(moment());
   const [endDate, setEndDate] = useState<moment.Moment>(moment().add(7, 'd'));
 
-  const { polls, createPoll } = usePoll();
+  const { createPoll } = usePoll();
 
   const disabledDate = (current: moment.Moment) => {
     return startDate > current;

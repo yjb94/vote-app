@@ -3,11 +3,13 @@ interface PollType {
   options: OptionType[];
   startDate: moment.Moment;
   endDate: moment.Moment;
+  totalVotes?: number;
 }
 
 interface OptionType {
   id: string;
   title: string;
+  votes?: number;
 }
 
 interface RouteType {
