@@ -5,6 +5,8 @@ const strings = {
   "create.title": "투표 제목",
   "create.createButton": "투표 생성",
 
+  "list.voteButton": "투표 하기",
+
   "warning": "투표 전",
   "processing": "투표 진행 중",
   "error": "투표 종료됨"

@@ -6,12 +6,12 @@ const OptionItem: React.FC<{ poll: PollType, option: OptionType }> = ({
   poll,
   option
 }) => {
-  const percent = ((poll.totalVotes || 0) / (option.votes || 0)) * 100;
+  const percent = Math.floor(((option.votes || 0) / (poll.totalVotes || 0)) * 100);
 
   return (
     <Container>
       {option.title}
-      <Progress percent={percent} />
+      <Progress status="active" percent={percent} />
     </Container>
   )
 };

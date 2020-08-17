@@ -15,9 +15,27 @@ const usePoll = () => {
     setPolls([...polls, poll]);
   }
 
+  const votePoll = (poll: PollType, option: OptionType) => {
+    const newPolls = polls.map(eachPoll => {
+      if(poll === eachPoll) {
+        return {
+          ...eachPoll,
+          totalVotes: (eachPoll.totalVotes || 0) + 1,
+          options: eachPoll.options.map(eachOption => ({ 
+            ...eachOption, 
+            votes: eachOption === option ? (eachOption.votes || 0) + 1 : eachOption.votes
+          }))
+        }
+      }
+      return eachPoll
+    })
+    setPolls(newPolls)
+  }
+
   return {
     polls,
-    createPoll
+    createPoll,
+    votePoll
   }
 };
 
