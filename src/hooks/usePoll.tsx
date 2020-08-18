@@ -21,7 +21,8 @@ const usePoll = () => {
       options,
       startDate,
       endDate,
-      ownerId
+      ownerId,
+      totalVotes: 0
     }
 
     const pollId: string = firebaseApp.database().ref().child('polls').push({
@@ -45,19 +46,29 @@ const usePoll = () => {
   }
 
   const votePoll = (poll: PollType, option: OptionType) => {
+    const votes = (option.votes || 0) + 1;
+    const totalVotes = (poll.totalVotes || 0) + 1;
+    let optionIdx = -1;
     const newPolls = polls.map(eachPoll => {
       if (poll === eachPoll) {
         return {
           ...eachPoll,
-          totalVotes: (eachPoll.totalVotes || 0) + 1,
-          options: eachPoll.options.map(eachOption => ({
-            ...eachOption,
-            votes: eachOption === option ? (eachOption.votes || 0) + 1 : eachOption.votes
-          }))
+          totalVotes,
+          options: eachPoll.options.map((eachOption, idx) => {
+            if(eachOption === option) {
+              optionIdx = idx;
+            }
+            return {
+              ...eachOption,
+              votes: eachOption === option ? votes : eachOption.votes
+            }
+          })
         }
       }
-      return eachPoll
+      return eachPoll;
     })
+    firebaseApp.database().ref(`polls/${poll.id}`).update({ totalVotes })
+    firebaseApp.database().ref(`polls/${poll.id}/options/${optionIdx}`).update({ votes })
     setPolls(newPolls)
   }
 
