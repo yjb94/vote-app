@@ -5,6 +5,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import CreatePoll from './pages/CreatePoll';
 import strings from './strings/strings';
 import ListPoll from './pages/ListPoll';
+import { pollsState } from './stores/poll';
 import { useRecoilTransactionObserver_UNSTABLE } from 'recoil';
 import Login from './pages/Login';
 import { firebaseApp } from './modules/firebase';
@@ -17,6 +18,9 @@ const App: React.FC = () => {
   const { me, setMyData } = useUser();
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
+    const polls = snapshot.getLoadable(pollsState).contents;
+    localStorage.setItem('polls', JSON.stringify(polls));
+
     const me = snapshot.getLoadable(meState).contents;
     localStorage.setItem('me', JSON.stringify(me));
   });

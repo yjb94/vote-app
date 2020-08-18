@@ -44,7 +44,7 @@ const PollItem: React.FC<{ poll: PollType }> = ({
   let status: 'warning' | "processing" | 'error' = 'error';
   if (today.isBefore(startDate)) {
     status = 'warning';
-  } else if (today.isBetween(startDate, endDate)) {
+  } else if (today.isSameOrAfter(startDate, 'date') && today.isSameOrBefore(endDate, 'date')) {
     status = 'processing';
   }
 
