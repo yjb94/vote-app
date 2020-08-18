@@ -58,7 +58,7 @@ const PollItem: React.FC<{ poll: PollType }> = ({
       <Space direction="vertical">
         {owner &&
           <Typography.Text>
-            {`${strings["list.ownerLabel"]}: ${owner.email}`}
+            {`${strings["list.ownerLabel"]} ${owner.email}`}
           </Typography.Text>
         }
         <Badge status={status} text={periodText} />
