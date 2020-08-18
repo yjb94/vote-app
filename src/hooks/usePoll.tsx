@@ -66,6 +66,21 @@ const usePoll = () => {
     return pollId;
   }
 
+  const editPoll = (poll: PollType) => {
+    setCreating(true);
+
+    firebaseApp.database().ref().child(`polls/${poll.id}`).update({
+      ...poll,
+      startDate: poll.startDate.toString(),
+      endDate: poll.endDate.toString(),
+    });
+
+    const newPolls = polls.map(each => each.id === poll.id ? poll : each);
+    setPolls(newPolls)
+
+    setCreating(false);
+  }
+
   const deletePoll = (poll: PollType): Promise<any> => {
     setPolls(polls.filter(t => t.id !== poll.id));
     return firebaseApp.database().ref().child(`polls/${poll.id}`).remove();
@@ -105,6 +120,7 @@ const usePoll = () => {
     creating,
     fetching,
     createPoll,
+    editPoll,
     votePoll,
     deletePoll
   }

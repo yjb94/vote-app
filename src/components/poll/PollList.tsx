@@ -3,15 +3,16 @@ import styled from "styled-components";
 import usePoll from '../../hooks/usePoll';
 import { Collapse, Popconfirm, Spin } from 'antd';
 import PollItem from './PollItem';
-import { DeleteOutlined } from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
 import useUser from '../../hooks/useUser';
-import strings from '../../strings/strings';
+import { useHistory } from 'react-router-dom';
 
 const { Panel } = Collapse;
 
 const PollList: React.FC = () => {
   const { me } = useUser();
-  const { fetching, polls, deletePoll } = usePoll();
+  const { fetching, polls } = usePoll();
+  const history = useHistory();
 
   if (fetching && polls.length === 0)
     return <Spin spinning />;
@@ -20,18 +21,11 @@ const PollList: React.FC = () => {
     if (poll.ownerId !== me?.id)
       return null;
     return (
-      <Popconfirm
-        title={strings["list.deleteMessage"]}
-        onConfirm={() => {
-          deletePoll(poll)
+      <SettingOutlined 
+        onClick={e => {
+          history.push(`/edit/${poll.id}`);
         }}
-        placement="topRight"
-      >
-        <DeleteOutlined onClick={e => {
-          e.stopPropagation();
-          e.preventDefault();
-        }} />
-      </Popconfirm>
+      />
     )
   }
 

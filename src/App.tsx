@@ -13,6 +13,7 @@ import useUser from './hooks/useUser';
 import { meState } from './stores/user';
 import { withAuth } from './hoc/withAuth';
 import { withNoAuth } from './hoc/withNoAuth';
+import EditPoll from './pages/EditPoll';
 
 const App: React.FC = () => {
   const { me, setMyData } = useUser();
@@ -36,6 +37,7 @@ const App: React.FC = () => {
 
   const routes: RouteType[] = [
     { path: '/create', component: withAuth(CreatePoll), name: strings["route.create"] },
+    { path: '/edit/:pollId', component: withAuth(EditPoll), name: strings["route.create"] },
     { path: '/login', component: withNoAuth(Login) },
     { path: '/', component: ListPoll, name: strings["route.listPoll"] },
   ]

@@ -1,5 +1,6 @@
 const strings = {
   "route.create": "투표 생성",
+  "route.edit": "투표 수정",
   "route.listPoll": "투표 목록",
 
   "login.email.label": "이메일",
@@ -13,6 +14,8 @@ const strings = {
 
   "create.title": "투표 제목",
   "create.createButton": "투표 생성",
+
+  "edit.editButton": "투표 수정",
 
   "list.voteButton": "투표 하기",
   "list.ownerLabel": "생성자: ",
