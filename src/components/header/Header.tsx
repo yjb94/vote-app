@@ -8,7 +8,7 @@ const Header: React.FC<{ routes: RouteType[] }> = ({
   routes
 }) => {
   const { pathname } = useLocation();
-  const route = routes.find(r => r.path === pathname);
+  const route = routes.find(r => pathname.split('/')[1] === r.path.split('/')[1]);
   if (!route)
     return null;
 
