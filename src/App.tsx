@@ -10,27 +10,26 @@ import { useRecoilTransactionObserver_UNSTABLE } from 'recoil';
 import Login from './pages/Login';
 import { firebaseApp } from './modules/firebase';
 import useUser from './hooks/useUser';
-import { userState } from './stores/user';
+import { meState } from './stores/user';
 import { withAuth } from './hoc/withAuth';
 import { withNoAuth } from './hoc/withNoAuth';
 
 const App: React.FC = () => {
-  const { me, setMe } = useUser();
+  const { me, setMyData } = useUser();
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
     const polls = snapshot.getLoadable(pollsState).contents;
     localStorage.setItem('polls', JSON.stringify(polls));
 
-    const user = snapshot.getLoadable(userState).contents;
-    localStorage.setItem('me', JSON.stringify(user));
+    const me = snapshot.getLoadable(meState).contents;
+    localStorage.setItem('me', JSON.stringify(me));
   });
 
   firebaseApp.auth().onAuthStateChanged(async (currentUser) => {
     if (currentUser && !me) {
-      setMe({
+      setMyData({
         id: currentUser.uid,
         email: currentUser.email || '',
-        token: await currentUser.getIdToken()
       })
     }
   });

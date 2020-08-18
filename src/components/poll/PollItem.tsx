@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import moment from "moment";
 import OptionItem from './OptionItem';
-import { Badge, Radio, Button } from 'antd';
+import { Badge, Radio, Button, Typography, Space } from 'antd';
 import strings from '../../strings/strings';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import usePoll from '../../hooks/usePoll';
+import useUser from '../../hooks/useUser';
+
 
 const PollItem: React.FC<{ poll: PollType }> = ({
   poll
 }) => {
   const { votePoll } = usePoll();
+  const { getUser } = useUser();
+  const [owner, setOwner] = useState<UserType | null>();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setOwner(await getUser(poll.ownerId));
+    };
+    fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const today = moment();
   const [startDate] = useState<moment.Moment>(moment(poll.startDate));
@@ -23,7 +35,7 @@ const PollItem: React.FC<{ poll: PollType }> = ({
   }
 
   const onClickVote = () => {
-    if(selectedOption) {
+    if (selectedOption) {
       votePoll(poll, selectedOption);
       setSelectedOption(undefined);
     }
@@ -40,20 +52,27 @@ const PollItem: React.FC<{ poll: PollType }> = ({
 
   return (
     <Container>
-      <Badge status={status} text={periodText} />
-      <OptionsContainer onChange={onOptionChange} value={selectedOption}>
-        {poll.options.map(option =>
-          <OptionContainer key={option.id} value={option}>
-            <OptionItem poll={poll} option={option} />
-          </OptionContainer>
-        )}
-      </OptionsContainer>
-      <Button
-        disabled={!selectedOption}
-        onClick={onClickVote}
-      >
-        {strings['list.voteButton']}
-      </Button>
+      <Space direction="vertical">
+        {owner && 
+          <Typography.Text>
+            {`${strings["list.ownerLabel"]}: ${owner.email}`}
+          </Typography.Text>
+        }
+        <Badge status={status} text={periodText} />
+        <OptionsContainer onChange={onOptionChange} value={selectedOption}>
+          {poll.options.map(option =>
+            <OptionContainer key={option.id} value={option}>
+              <OptionItem poll={poll} option={option} />
+            </OptionContainer>
+          )}
+        </OptionsContainer>
+        <Button
+          disabled={!selectedOption}
+          onClick={onClickVote}
+        >
+          {strings['list.voteButton']}
+        </Button>
+      </Space>
     </Container>
   )
 };

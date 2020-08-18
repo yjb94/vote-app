@@ -22,7 +22,6 @@ interface RouteType {
 
 interface UserType {
   id: string;
-  token: string;
   email: string;
 }
 
