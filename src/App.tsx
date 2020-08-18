@@ -14,6 +14,7 @@ import { meState } from './stores/user';
 import { withAuth } from './hoc/withAuth';
 import { withNoAuth } from './hoc/withNoAuth';
 import EditPoll from './pages/EditPoll';
+import Header from './components/header/Header';
 
 const App: React.FC = () => {
   const { me, setMyData } = useUser();
@@ -37,14 +38,15 @@ const App: React.FC = () => {
 
   const routes: RouteType[] = [
     { path: '/create', component: withAuth(CreatePoll), name: strings["route.create"] },
-    { path: '/edit/:pollId', component: withAuth(EditPoll), name: strings["route.create"] },
-    { path: '/login', component: withNoAuth(Login) },
+    { path: '/edit/:pollId', component: withAuth(EditPoll), name: strings["route.edit"] },
+    { path: '/login', component: withNoAuth(Login), name: strings["route.login"] },
     { path: '/', component: ListPoll, name: strings["route.listPoll"] },
   ]
 
   return (
     <AppContainer>
       <GlobalStyle />
+      <Header routes={routes} />
       <Switch>
         {routes.map(route => <Route exact key={route.path} {...route} />)}
         <Route

@@ -1,6 +1,7 @@
 const strings = {
   "route.create": "투표 생성",
   "route.edit": "투표 수정",
+  "route.login": "로그인",
   "route.listPoll": "투표 목록",
 
   "login.email.label": "이메일",

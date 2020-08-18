@@ -17,7 +17,7 @@ interface OptionType {
 interface RouteType {
   path: string;
   component: React.FC;
-  name?: string;
+  name: string;
 }
 
 interface UserType {
