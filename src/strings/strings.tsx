@@ -14,6 +14,7 @@ const strings = {
   "create.createButton": "투표 생성",
 
   "list.voteButton": "투표 하기",
+  "list.deleteMessage": "투표를 삭제하시겠습니까?",
 
   "warning": "투표 전",
   "processing": "투표 진행 중",

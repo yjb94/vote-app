@@ -39,6 +39,11 @@ const usePoll = () => {
     return pollId;
   }
 
+  const deletePoll = (poll: PollType): Promise<any> => {
+    setPolls(polls.filter(t => t.id !== poll.id));
+    return firebaseApp.database().ref().child(`polls/${poll.id}`).remove()
+  }
+
   const votePoll = (poll: PollType, option: OptionType) => {
     const newPolls = polls.map(eachPoll => {
       if (poll === eachPoll) {
@@ -60,7 +65,8 @@ const usePoll = () => {
     polls,
     creating,
     createPoll,
-    votePoll
+    votePoll,
+    deletePoll
   }
 };
 

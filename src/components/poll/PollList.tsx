@@ -1,19 +1,35 @@
 import React from 'react';
 import styled from "styled-components";
 import usePoll from '../../hooks/usePoll';
-import { Collapse } from 'antd';
+import { Collapse, Popconfirm } from 'antd';
 import PollItem from './PollItem';
 import { DeleteOutlined } from '@ant-design/icons';
+import useUser from '../../hooks/useUser';
+import strings from '../../strings/strings';
 
 const { Panel } = Collapse;
 
 const PollList: React.FC = () => {
-  const { polls } = usePoll();
+  const { me } = useUser();
+  const { polls, deletePoll } = usePoll();
 
   const getExtra = (poll: PollType) => {
-    // TODO: render if poll's owner is current user
-    // TODO: delete poll
-    return <DeleteOutlined />
+    if(poll.ownerId !== me?.id)
+      return null;
+    return (
+      <Popconfirm
+        title={strings["list.deleteMessage"]}
+        onConfirm={() => {
+          deletePoll(poll)
+        }}
+        placement="topRight"
+      >
+        <DeleteOutlined onClick={e => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}/>
+      </Popconfirm>
+    )
   }
 
   return (
