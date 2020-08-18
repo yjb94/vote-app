@@ -23,8 +23,10 @@ const PollItem: React.FC<{ poll: PollType }> = ({
   }
 
   const onClickVote = () => {
-    if(selectedOption)
+    if(selectedOption) {
       votePoll(poll, selectedOption);
+      setSelectedOption(undefined);
+    }
   }
 
   let status: 'warning' | "processing" | 'error' = 'error';
