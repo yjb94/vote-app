@@ -47,7 +47,9 @@ const useUser = () => {
     setFetching(true);
     localStorage.removeItem('me');
     setMe(null);
-    return await firebase.auth().signOut().catch(handleError);
+    const promise = firebase.auth().signOut().catch(handleError);
+    setFetching(false);
+    return await promise;
   }
 
   const getUser = async (uid: string) => {
