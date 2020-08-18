@@ -1,8 +1,10 @@
 interface PollType {
+  id: string;
   title: string;
   options: OptionType[];
   startDate: moment.Moment;
   endDate: moment.Moment;
+  ownerId: string; 
   totalVotes?: number;
 }
 

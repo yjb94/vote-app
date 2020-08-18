@@ -5,6 +5,8 @@ import { Typography, Button, DatePicker } from 'antd';
 import faker from 'faker';
 import moment from 'moment';
 import usePoll from '../hooks/usePoll';
+import useUser from '../hooks/useUser';
+import { useHistory } from 'react-router-dom';
 
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
@@ -24,7 +26,9 @@ const CreatePoll: React.FC = () => {
   const [startDate, setStartDate] = useState<moment.Moment>(moment());
   const [endDate, setEndDate] = useState<moment.Moment>(moment().add(7, 'd'));
 
-  const { createPoll } = usePoll();
+  const { creating, createPoll } = usePoll();
+  const { me } = useUser();
+  const history = useHistory();
 
   const disabledDate = (current: moment.Moment) => {
     return startDate > current;
@@ -38,14 +42,22 @@ const CreatePoll: React.FC = () => {
     setOptions(newOptions);
   }
   const onChangeCalendar = (ranges: RangeValue<moment.Moment>) => {
-    if(ranges) {
+    if (ranges) {
       ranges[0] && setStartDate(ranges[0]);
       ranges[1] && setEndDate(ranges[1]);
     }
   }
 
   const onClickCreate = () => {
-    createPoll(title, options, startDate, endDate)
+    if (!me) {
+      alert(strings["alert.noMe"]);
+      history.push('/login');
+      return;
+    }
+    const pollId = createPoll(title, options, startDate, endDate, me.id);
+    if (pollId) {
+      history.push('/');
+    }
   }
 
   return (
@@ -78,6 +90,7 @@ const CreatePoll: React.FC = () => {
       />
       <CreateButton
         onClick={onClickCreate}
+        loading={creating}
       >
         {strings["create.createButton"]}
       </CreateButton>

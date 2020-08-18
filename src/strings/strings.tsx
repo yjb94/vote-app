@@ -17,7 +17,9 @@ const strings = {
 
   "warning": "투표 전",
   "processing": "투표 진행 중",
-  "error": "투표 종료됨"
+  "error": "투표 종료됨",
+
+  "alert.noMe": "로그인 후에 사용할 수 있습니다.",
 }
 
 export default strings;
