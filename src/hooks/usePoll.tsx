@@ -1,11 +1,34 @@
 import { useRecoilState } from 'recoil';
 import { pollsState } from '../stores/poll';
 import { firebaseApp } from '../modules/firebase';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import moment from 'moment';
 
 const usePoll = () => {
   const [polls, setPolls] = useRecoilState(pollsState);
   const [creating, setCreating] = useState<boolean>(false);
+
+  useEffect(() => {
+    const loadPoll = async () => {
+      const snap = await firebaseApp.database().ref(`polls/`).once('value');
+      const snapVal = snap.val();
+      if(snapVal) {
+        const polls = Object.keys(snapVal).map(id => {
+          const poll = snapVal[id];
+          poll.startDate = moment(poll.startDate);
+          poll.endDate = moment(poll.endDate);
+          return {
+            id,
+            ...poll
+          }
+        });
+        setPolls(polls)
+      }
+    };
+    
+    loadPoll();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const createPoll = (
     title: string,
@@ -28,7 +51,7 @@ const usePoll = () => {
     const pollId: string = firebaseApp.database().ref().child('polls').push({
       title, options, ownerId,
       startDate: poll.startDate.toString(),
-      endDate: poll.startDate.toString(),
+      endDate: poll.endDate.toString(),
     }).key || '';
 
     setPolls([...polls, {

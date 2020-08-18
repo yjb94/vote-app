@@ -4,11 +4,11 @@ import App from './App';
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot, MutableSnapshot } from 'recoil';
 import 'antd/dist/antd.css';
-import { pollsState } from './stores/poll';
+import { meState } from './stores/user';
 
 const initializeState = (mutableSnapshot: MutableSnapshot) => {
-  const polls: PollType[] = JSON.parse(localStorage.getItem('polls') || '[]');
-  mutableSnapshot.set(pollsState, polls);
+  const me: UserType = JSON.parse(localStorage.getItem('me') || '');
+  mutableSnapshot.set(meState, me);
 };
 
 ReactDOM.render(
