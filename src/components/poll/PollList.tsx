@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import usePoll from '../../hooks/usePoll';
-import { Collapse, Popconfirm, Spin } from 'antd';
+import { Collapse, Spin } from 'antd';
 import PollItem from './PollItem';
 import { SettingOutlined } from '@ant-design/icons';
 import useUser from '../../hooks/useUser';

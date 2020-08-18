@@ -47,18 +47,29 @@ const App: React.FC = () => {
     <AppContainer>
       <GlobalStyle />
       <Header routes={routes} />
-      <Switch>
-        {routes.map(route => <Route exact key={route.path} {...route} />)}
-        <Route
-          path="/"
-          render={() => <Redirect to="/" />}
-        />
-      </Switch>
+      <RouteContainer>
+        <Switch>
+          {routes.map(route => <Route exact key={route.path} {...route} />)}
+          <Route
+            path="/"
+            render={() => <Redirect to="/" />}
+          />
+        </Switch>
+      </RouteContainer>
     </AppContainer>
   )
 };
 
 const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const RouteContainer = styled.div`
+  width: 50%;
+  padding: 32px;
+  min-width: 375px;
 `;
 
 export default App;

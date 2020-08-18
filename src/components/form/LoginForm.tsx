@@ -45,7 +45,7 @@ const LoginForm: React.FC = () => {
         <Input.Password />
       </FormInputItem>
 
-      <Form.Item>
+      <ButtonContainer>
         <Button 
           type="primary"
           htmlType="submit"
@@ -53,7 +53,7 @@ const LoginForm: React.FC = () => {
         >
           {strings["login.loginButton"]}
         </Button>
-      </Form.Item>
+      </ButtonContainer>
     </FormContainer>
   );
 };
@@ -66,6 +66,10 @@ const FormContainer = styled(Form)`
 
 const FormInputItem = styled(Form.Item)`
   width: 100%;
+`;
+
+const ButtonContainer = styled(Form.Item)`
+  align-self: flex-end;
 `;
 
 export default LoginForm;
