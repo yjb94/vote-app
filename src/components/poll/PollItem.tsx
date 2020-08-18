@@ -64,7 +64,7 @@ const PollItem: React.FC<{ poll: PollType }> = ({
         <Badge status={status} text={periodText} />
         <OptionsContainer onChange={onOptionChange} value={selectedOption}>
           {poll.options.map(option =>
-            <OptionContainer key={option.id} value={option}>
+            <OptionContainer key={option.id} value={option} disabled={isEnded}>
               <OptionItem poll={poll} option={option} />
             </OptionContainer>
           )}
