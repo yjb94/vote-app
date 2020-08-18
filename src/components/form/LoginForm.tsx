@@ -1,9 +1,9 @@
 import React from 'react';
-import * as firebase from "firebase";
 import { Form, Input, Button } from 'antd';
 import { Store } from 'antd/lib/form/interface';
 import styled from 'styled-components';
 import strings from '../../strings/strings';
+import useUser from '../../hooks/useUser';
 
 const layout = {
   labelCol: {
@@ -12,11 +12,10 @@ const layout = {
 }
 
 const LoginForm: React.FC = () => {
+  const { signUp } = useUser();
+
   const onFinish = (values: Store) => {
-    firebase.auth().createUserWithEmailAndPassword(values.username, values.password)
-    .catch(error => {
-      alert(error.message || error);
-    })
+    signUp(values.email, values.password);
   };
 
   return (
@@ -28,7 +27,7 @@ const LoginForm: React.FC = () => {
       <FormInputItem
         {...layout}
         label={strings["login.email.label"]}
-        name="username"
+        name="email"
         rules={[
           { required: true, message: strings["login.email.required"] },
           { type: 'email', message: strings["login.email.invalid"] },

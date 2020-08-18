@@ -1,12 +1,30 @@
+import * as firebase from "firebase";
 import { useRecoilState } from 'recoil';
 import { userState } from '../stores/user';
 
 const useUser = () => {
-  const [user, setUser] = useRecoilState(userState);
+  const [me, setMe] = useRecoilState(userState);
+
+  const handleError = (error: Error) => {
+    alert(error.message || error);
+    return error;
+  }
+
+  const signUp = async (email: string, password: string) => {
+    return await firebase.auth().createUserWithEmailAndPassword(email, password)
+      .catch(handleError)
+  }
+
+  const logout = async () => {
+    localStorage.removeItem('me');
+    return await firebase.auth().signOut().catch(handleError);
+  }
 
   return {
-    user,
-    setUser,
+    me,
+    setMe,
+    signUp,
+    logout
   }
 };
 

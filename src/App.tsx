@@ -11,9 +11,11 @@ import Login from './pages/Login';
 import { firebaseApp } from './modules/firebase';
 import useUser from './hooks/useUser';
 import { userState } from './stores/user';
+import { withAuth } from './hoc/withAuth';
+import { withNoAuth } from './hoc/withNoAuth';
 
 const App: React.FC = () => {
-  const { user, setUser } = useUser();
+  const { me, setMe } = useUser();
 
   useRecoilTransactionObserver_UNSTABLE(({ snapshot }) => {
     const polls = snapshot.getLoadable(pollsState).contents;
@@ -24,8 +26,8 @@ const App: React.FC = () => {
   });
 
   firebaseApp.auth().onAuthStateChanged(async (currentUser) => {
-    if (currentUser && !user) {
-      setUser({
+    if (currentUser && !me) {
+      setMe({
         id: currentUser.uid,
         email: currentUser.email || '',
         token: await currentUser.getIdToken()
@@ -34,8 +36,8 @@ const App: React.FC = () => {
   });
 
   const routes: RouteType[] = [
-    { path: '/create', component: CreatePoll, name: strings["route.create"] },
-    { path: '/login', component: Login },
+    { path: '/create', component: withAuth(CreatePoll), name: strings["route.create"] },
+    { path: '/login', component: withNoAuth(Login) },
     { path: '/', component: ListPoll, name: strings["route.listPoll"] },
   ]
 
