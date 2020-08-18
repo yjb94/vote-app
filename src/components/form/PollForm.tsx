@@ -21,7 +21,7 @@ const createOptions = (length: number): OptionType[] => {
   })
 }
 
-const PollForm: React.FC<{ poll?:PollType }> = ({
+const PollForm: React.FC<{ poll?: PollType }> = ({
   poll
 }) => {
   const [title, setTitle] = useState<string>(poll?.title || strings['create.title']);
@@ -57,7 +57,7 @@ const PollForm: React.FC<{ poll?:PollType }> = ({
       history.push('/login');
       return;
     }
-    if(poll) {
+    if (poll) {
       editPoll({
         ...poll,
         title, options, startDate, endDate
@@ -82,9 +82,11 @@ const PollForm: React.FC<{ poll?:PollType }> = ({
           return (
             <Option
               key={option.id}
-              editable={{
-                onChange: (str: string) => onOptionChange(option, str)
-              }}
+              editable={
+                poll ? false : {
+                  onChange: (str: string) => onOptionChange(option, str)
+                }
+              }
             >
               {option.title}
             </Option>
