@@ -9,6 +9,7 @@ const strings = {
   "login.password.required": "비밀번호를 입력해주세요",
   
   "login.loginButton": "로그인",
+  "login.logoutButton": "로그아웃",
 
   "create.title": "투표 제목",
   "create.createButton": "투표 생성",

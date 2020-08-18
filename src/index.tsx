@@ -11,8 +11,11 @@ const initializeState = (mutableSnapshot: MutableSnapshot) => {
   const polls: PollType[] = JSON.parse(localStorage.getItem('polls') || '[]');
   mutableSnapshot.set(pollsState, polls);
 
-  const me: UserType = JSON.parse(localStorage.getItem('me') || '');
-  mutableSnapshot.set(meState, me);
+  const meData = localStorage.getItem('me');
+  if(meData) {
+    const me: UserType = JSON.parse(meData);
+    mutableSnapshot.set(meState, me);
+  }
 };
 
 ReactDOM.render(

@@ -12,7 +12,7 @@ const layout = {
 }
 
 const LoginForm: React.FC = () => {
-  const { signUp } = useUser();
+  const { fetching, signUp } = useUser();
 
   const onFinish = (values: Store) => {
     signUp(values.email, values.password);
@@ -46,7 +46,11 @@ const LoginForm: React.FC = () => {
       </FormInputItem>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button 
+          type="primary"
+          htmlType="submit"
+          loading={fetching}
+        >
           {strings["login.loginButton"]}
         </Button>
       </Form.Item>
