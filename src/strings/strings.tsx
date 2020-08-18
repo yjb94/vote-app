@@ -20,6 +20,7 @@ const strings = {
   "list.voteButton": "투표 하기",
   "list.ownerLabel": "생성자: ",
   "list.deleteMessage": "투표를 삭제하시겠습니까?",
+  "list.result": "투표 결과: ",
 
   "warning": "투표 전",
   "processing": "투표 진행 중",

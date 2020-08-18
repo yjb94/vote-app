@@ -49,11 +49,14 @@ const PollItem: React.FC<{ poll: PollType }> = ({
   }
 
   const periodText = `${strings[status]} - ${startDate.format('YYYY/MM/DD')} ~ ${endDate.format('YYYY/MM/DD')}`;
+  const isEnded: boolean = status === 'error';
+  const maxValue = Math.max(...poll.options.map(o => o.votes || 0));
+  const filteredOptions = poll.options.filter(o => o.votes === maxValue);
 
   return (
     <Container>
       <Space direction="vertical">
-        {owner && 
+        {owner &&
           <Typography.Text>
             {`${strings["list.ownerLabel"]}: ${owner.email}`}
           </Typography.Text>
@@ -72,6 +75,11 @@ const PollItem: React.FC<{ poll: PollType }> = ({
         >
           {strings['list.voteButton']}
         </Button>
+        {isEnded &&
+          <ResultContainer>
+            {strings['list.result'] + filteredOptions.map(o => o.title).join()}
+          </ResultContainer>
+        }
       </Space>
     </Container>
   )
@@ -86,6 +94,8 @@ const OptionsContainer = styled(Radio.Group)`
 const OptionContainer = styled(Radio)`
   display: flex;
   align-items: center;
+`;
+const ResultContainer = styled(Typography.Text)`
 `;
 
 export default PollItem;
