@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import { Typography, Button, DatePicker, Popconfirm } from 'antd';
+import { Typography, Button, DatePicker, Popconfirm, Space } from 'antd';
 import faker from 'faker';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
@@ -8,6 +8,7 @@ import useUser from '../../hooks/useUser';
 import usePoll from '../../hooks/usePoll';
 import strings from '../../strings/strings';
 import { DeleteOutlined } from '@ant-design/icons';
+import EditableOptionItem from '../poll/EditableOptionItem';
 
 const { Text } = Typography;
 const { RangePicker } = DatePicker;
@@ -44,6 +45,14 @@ const PollForm: React.FC<{ poll?: PollType }> = ({
     const newOptions = options.map(each => each === option ? { ...each, title: str } : each);
     setOptions(newOptions);
   }
+  const onDeleteOption = (option: OptionType) => {
+    const newOptions = options.filter(o => o.id !== option.id);
+    if(newOptions.length === 0) {
+      alert(strings["alert.minimumOption"]);
+      return;
+    }
+    setOptions(newOptions);
+  }
   const onChangeCalendar = (ranges: RangeValue<moment.Moment>) => {
     if (ranges) {
       ranges[0] && setStartDate(ranges[0]);
@@ -69,7 +78,18 @@ const PollForm: React.FC<{ poll?: PollType }> = ({
   }
 
   return (
-    <Container>
+    <Container direction="vertical">
+      {poll &&
+        <DeletePopconfirm
+          title={strings["list.deleteMessage"]}
+          onConfirm={() => {
+            deletePoll(poll)
+            history.push('/');
+          }}
+        >
+          <DeleteOutlined />
+        </DeletePopconfirm>
+      }
       <Text
         editable={{
           onChange: onTitleChange
@@ -77,19 +97,16 @@ const PollForm: React.FC<{ poll?: PollType }> = ({
       >
         {title}
       </Text>
-      <OptionsContainer>
+      <OptionsContainer direction="vertical">
         {options.map(option => {
           return (
-            <Option
+            <EditableOptionItem
               key={option.id}
-              editable={
-                poll ? false : {
-                  onChange: (str: string) => onOptionChange(option, str)
-                }
-              }
-            >
-              {option.title}
-            </Option>
+              option={option}
+              editable={!!poll}
+              onOptionChange={onOptionChange}
+              onDeleteOption={onDeleteOption}
+            />
           )
         })}
       </OptionsContainer>
@@ -104,28 +121,18 @@ const PollForm: React.FC<{ poll?: PollType }> = ({
       >
         {poll ? strings["edit.editButton"] : strings["create.createButton"]}
       </CreateButton>
-      {poll &&
-        <Popconfirm
-          title={strings["list.deleteMessage"]}
-          onConfirm={() => {
-            deletePoll(poll)
-            history.push('/');
-          }}
-        >
-          <DeleteOutlined />
-        </Popconfirm>
-      }
     </Container>
   )
 };
 
-const Container = styled.div`
+const Container = styled(Space)`
 `;
-const OptionsContainer = styled.div`
-`;
-const Option = styled(Text)`
+const OptionsContainer = styled(Space)`
 `;
 const CreateButton = styled(Button)`
+`;
+const DeletePopconfirm = styled(Popconfirm)`
+  float: right;
 `;
 
 export default PollForm;

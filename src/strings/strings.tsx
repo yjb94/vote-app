@@ -28,6 +28,7 @@ const strings = {
   "error": "투표 종료됨",
 
   "alert.noMe": "로그인 후에 사용할 수 있습니다.",
+  "alert.minimumOption": "더 이상 삭제할 수 없습니다.",
 }
 
 export default strings;
