@@ -2,10 +2,12 @@ import React from 'react';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import PollList from '../components/poll/PollList';
+import LogoutButton from '../components/button/LogoutButton';
 
 const ListPoll: React.FC = () => {
   return (
     <Container>
+      <LogoutButton />
       <PollList />
       <CreatePoll
         to="/create"

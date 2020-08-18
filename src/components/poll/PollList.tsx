@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import usePoll from '../../hooks/usePoll';
-import { Collapse, Popconfirm } from 'antd';
+import { Collapse, Popconfirm, Spin } from 'antd';
 import PollItem from './PollItem';
 import { DeleteOutlined } from '@ant-design/icons';
 import useUser from '../../hooks/useUser';
@@ -11,10 +11,13 @@ const { Panel } = Collapse;
 
 const PollList: React.FC = () => {
   const { me } = useUser();
-  const { polls, deletePoll } = usePoll();
+  const { fetching, polls, deletePoll } = usePoll();
+
+  if (fetching && polls.length === 0)
+    return <Spin spinning />;
 
   const getExtra = (poll: PollType) => {
-    if(poll.ownerId !== me?.id)
+    if (poll.ownerId !== me?.id)
       return null;
     return (
       <Popconfirm
@@ -27,7 +30,7 @@ const PollList: React.FC = () => {
         <DeleteOutlined onClick={e => {
           e.stopPropagation();
           e.preventDefault();
-        }}/>
+        }} />
       </Popconfirm>
     )
   }
