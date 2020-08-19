@@ -1,44 +1,48 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## How to run
 
-## Available Scripts
+```
+  npm install
+  npm run start
+```
 
-In the project directory, you can run:
+[http://localhost:3000](http://localhost:3001) 에서 어플리케이션이 실행됩니다.
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Stacks
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```
+Framework: React.js
+Back-end: Firebase(cloud-functions / realtime-database / hosting)
+Language: TypeScript
+State management: Recoil.js
+Routing: react-router-dom
+Styling: styled-component / Ant design
+```
 
-### `yarn test`
+## Details
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 스토리
 
-### `yarn build`
+- 사용자는 투표를 생성할 수 있어야 한다 
+- 투표 생성자는 제목을 입력할 수 있어야 한다 
+- 투표를 생성하면 항목이 기본으로 3개가 생성되어야 한다 
+- 투표 생성자는 투표 항목의 이름을 변경할 수 있다 
+- 투표 생성자는 투표를 저장할 수 있어야 한다 
+- 투표자 생성자는 투표를 삭제할 수 있어야 한다 
+- 사용자는 만들어진 투표 리스트를 볼 수 있어야 한다 
+- 사용자는 투표 리스트에서 제목, 생성자, 기간, 진행 중 여부를 확인 할 수 있어야 한다 
+- 사용자는 투표 리스트에서 특정 투표를 클릭시 투표내용 상세보기를 할 수 있다 
+- 사용자는 투표 리스트에서 진행중인 투표에 투표 할 수 있다 
+- 사용자는 투표 결과를 텍스트로 확인할 수 있어야 한다 
+- 투표 생성자는 투표 기간을 설정할 수 있다(시작, 종료) 
+- 사용자는 종료시간이 지난 투표는 결과보기만 할 수 있다
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 요구사항
+- unit test 
+- github public repository에 소스를 등록
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 비고
+- Firebase DB 주소가 미국 동부로 설정되어있어 데이터 로드에 약간의 시간이 소요됩니다.
+- UI/UX는 ant design의 기본 설정대로 진행했습니다.
+- 스토리의 내용대로 구현하였지만, 작성자의 의도가 완벽하게 드러나지는 않을 수도 있습니다.
+- 요구사항의 unit test는 아직 project level에서 수행해 본 적이 없어서 진행하지 못했습니다.
