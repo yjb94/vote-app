@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { Typography, Button, Space } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+import strings from '../../strings/strings';
 
 interface EditableOptionItemProps {
   option: OptionType;
@@ -16,6 +17,14 @@ const EditableOptionItem: React.FC<EditableOptionItemProps> = ({
   onOptionChange,
   onDeleteOption
 }) => {
+  const _onOptionChange = (str: string) => {
+    if (str.length > 15) {
+      alert(strings["alert.maxOptionTitle"]);
+      return;
+    }
+    onOptionChange(option, str)
+  }
+
   const _onDelete = () => {
     onDeleteOption(option);
   }
@@ -28,7 +37,7 @@ const EditableOptionItem: React.FC<EditableOptionItemProps> = ({
       <Option
         key={option.id}
         editable={{
-          onChange: (str: string) => onOptionChange(option, str)
+          onChange: _onOptionChange
         }}
       >
         {option.title}

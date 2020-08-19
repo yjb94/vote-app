@@ -54,46 +54,52 @@ const PollItem: React.FC<{ poll: PollType }> = ({
   const filteredOptions = poll.options.filter(o => o.votes === maxValue);
 
   return (
-    <Container>
-      <Space direction="vertical">
-        {owner &&
-          <Typography.Text>
-            {`${strings["list.ownerLabel"]} ${owner.email}`}
-          </Typography.Text>
-        }
-        <Badge status={status} text={periodText} />
-        <OptionsContainer onChange={onOptionChange} value={selectedOption}>
-          {poll.options.map(option =>
-            <OptionContainer key={option.id} value={option} disabled={isEnded}>
-              <OptionItem poll={poll} option={option} />
-            </OptionContainer>
-          )}
-        </OptionsContainer>
-        <Button
-          disabled={!selectedOption}
-          onClick={onClickVote}
-        >
-          {strings['list.voteButton']}
-        </Button>
-        {isEnded &&
-          <ResultContainer>
-            {strings['list.result'] + filteredOptions.map(o => o.title).join()}
-          </ResultContainer>
-        }
-      </Space>
+    <Container direction="vertical">
+      {owner &&
+        <Typography.Text>
+          {`${strings["list.ownerLabel"]} ${owner.email}`}
+        </Typography.Text>
+      }
+      <Badge status={status} text={periodText} />
+      <OptionsContainer onChange={onOptionChange} value={selectedOption}>
+        {poll.options.map(option =>
+          <OptionContainer key={option.id} value={option} disabled={isEnded}>
+            <OptionItem poll={poll} option={option} />
+          </OptionContainer>
+        )}
+      </OptionsContainer>
+      <VoteButton
+        disabled={!selectedOption}
+        onClick={onClickVote}
+      >
+        {strings['list.voteButton']}
+      </VoteButton>
+      {isEnded &&
+        <ResultContainer>
+          {strings['list.result'] + filteredOptions.map(o => o.title).join()}
+        </ResultContainer>
+      }
     </Container>
   )
 };
 
-const Container = styled.div`
+const Container = styled(Space)`
+  width: 100%;
 `;
 const OptionsContainer = styled(Radio.Group)`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin-top: 8px;
 `;
 const OptionContainer = styled(Radio)`
   display: flex;
   align-items: center;
+  margin-bottom: 8px;
+`;
+const VoteButton = styled(Button)`
+  margin-top: 8px;
+  float: right;
 `;
 const ResultContainer = styled(Typography.Text)`
 `;
