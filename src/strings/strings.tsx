@@ -13,7 +13,9 @@ const strings = {
   "login.loginButton": "로그인",
   "login.logoutButton": "로그아웃",
 
-  "create.title": "투표 제목",
+  "create.title.default": "투표 제목",
+  "create.range.label": "투표 기간",
+  "create.option.default": "투표 항목",
   "create.createButton": "투표 생성",
 
   "edit.editButton": "투표 수정",

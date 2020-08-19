@@ -1,31 +1,35 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import { Typography, Button, DatePicker, Popconfirm, Space } from 'antd';
+import { Typography, Button, DatePicker, Popconfirm, Space, Divider } from 'antd';
 import faker from 'faker';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import useUser from '../../hooks/useUser';
 import usePoll from '../../hooks/usePoll';
 import strings from '../../strings/strings';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import EditableOptionItem from '../poll/EditableOptionItem';
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 const { RangePicker } = DatePicker;
+
+const createOption = (idx: number) => {
+  return {
+    id: faker.random.uuid(),
+    title: `${strings["create.option.default"]} ${idx + 1}`
+  }
+}
 
 const createOptions = (length: number): OptionType[] => {
   return [...Array(length)].map((_, idx) => {
-    return {
-      id: faker.random.uuid(),
-      title: `option ${idx + 1}`
-    }
+    return createOption(idx);
   })
 }
 
 const PollForm: React.FC<{ poll?: PollType }> = ({
   poll
 }) => {
-  const [title, setTitle] = useState<string>(poll?.title || strings['create.title']);
+  const [title, setTitle] = useState<string>(poll?.title || strings['create.title.default']);
   const [options, setOptions] = useState<OptionType[]>(poll?.options || createOptions(3));
   const [startDate, setStartDate] = useState<moment.Moment>(moment(poll?.startDate));
   const [endDate, setEndDate] = useState<moment.Moment>(poll?.endDate ? moment(poll.endDate) : moment().add(7, 'd'));
@@ -47,11 +51,14 @@ const PollForm: React.FC<{ poll?: PollType }> = ({
   }
   const onDeleteOption = (option: OptionType) => {
     const newOptions = options.filter(o => o.id !== option.id);
-    if(newOptions.length === 0) {
+    if (newOptions.length === 0) {
       alert(strings["alert.minimumOption"]);
       return;
     }
     setOptions(newOptions);
+  }
+  const onAddOption = () => {
+    setOptions([...options, createOption(options.length)]);
   }
   const onChangeCalendar = (ranges: RangeValue<moment.Moment>) => {
     if (ranges) {
@@ -78,7 +85,7 @@ const PollForm: React.FC<{ poll?: PollType }> = ({
   }
 
   return (
-    <Container direction="vertical">
+    <Container>
       {poll &&
         <DeletePopconfirm
           title={strings["list.deleteMessage"]}
@@ -90,31 +97,45 @@ const PollForm: React.FC<{ poll?: PollType }> = ({
           <DeleteOutlined />
         </DeletePopconfirm>
       }
-      <Text
+      <Title
+        level={4}
         editable={{
           onChange: onTitleChange
         }}
       >
         {title}
-      </Text>
+      </Title>
+      <RangePickerContainer>
+        <Text>
+          {strings["create.range.label"]}
+        </Text>
+        <RangePicker
+          defaultValue={[startDate, endDate]}
+          disabledDate={disabledDate}
+          onCalendarChange={onChangeCalendar}
+        />
+      </RangePickerContainer>
+      <Divider />
       <OptionsContainer direction="vertical">
-        {options.map(option => {
+        {options.map((option, idx) => {
           return (
             <EditableOptionItem
               key={option.id}
+              idx={idx + 1}
               option={option}
-              editable={!!poll}
               onOptionChange={onOptionChange}
               onDeleteOption={onDeleteOption}
             />
           )
         })}
+        <Button
+          icon={<PlusOutlined />}
+          size="small"
+          shape="circle"
+          onClick={onAddOption}
+        />
       </OptionsContainer>
-      <RangePicker
-        defaultValue={[startDate, endDate]}
-        disabledDate={disabledDate}
-        onCalendarChange={onChangeCalendar}
-      />
+      <Divider />
       <CreateButton
         onClick={onClickCreate}
         loading={creating}
@@ -125,14 +146,21 @@ const PollForm: React.FC<{ poll?: PollType }> = ({
   )
 };
 
-const Container = styled(Space)`
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+const RangePickerContainer = styled(Space)`
 `;
 const OptionsContainer = styled(Space)`
 `;
 const CreateButton = styled(Button)`
 `;
 const DeletePopconfirm = styled(Popconfirm)`
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 export default PollForm;

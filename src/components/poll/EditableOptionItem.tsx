@@ -5,14 +5,14 @@ import { CloseOutlined } from '@ant-design/icons';
 
 interface EditableOptionItemProps {
   option: OptionType;
-  editable: boolean;
+  idx: number;
   onOptionChange: (option: OptionType, str: string) => void;
   onDeleteOption: (option: OptionType) => void;
 }
 
 const EditableOptionItem: React.FC<EditableOptionItemProps> = ({
   option,
-  editable,
+  idx,
   onOptionChange,
   onDeleteOption
 }) => {
@@ -22,21 +22,22 @@ const EditableOptionItem: React.FC<EditableOptionItemProps> = ({
 
   return (
     <Container>
+      <Typography.Text>
+        {idx}.
+      </Typography.Text>
       <Option
         key={option.id}
-        editable={
-          editable ? false : {
-            onChange: (str: string) => onOptionChange(option, str)
-          }
-        }
+        editable={{
+          onChange: (str: string) => onOptionChange(option, str)
+        }}
       >
         {option.title}
       </Option>
-      <DeleteButton 
+      <DeleteButton
         icon={<CloseOutlined />}
         size="small"
         shape="circle"
-        onClick={_onDelete} 
+        onClick={_onDelete}
       />
     </Container>
   )
